@@ -1,0 +1,61 @@
+# Training Configuration
+training:
+  batch_size: 16
+  learning_rate: 2e-5
+  num_epochs: 3
+  warmup_steps: 500
+  weight_decay: 0.01
+  adam_epsilon: 1e-8
+  max_grad_norm: 1.0
+  
+  # Scheduler
+  scheduler_type: "linear"  # linear, cosine, polynomial
+  
+  # Early stopping
+  early_stopping:
+    enabled: true
+    patience: 3
+    min_delta: 0.001
+    
+  # Checkpointing
+  save_strategy: "epoch"  # steps, epoch, no
+  save_steps: 500
+  save_total_limit: 3
+  load_best_model_at_end: true
+  metric_for_best_model: "eval_accuracy"
+  greater_is_better: true
+
+# Evaluation Configuration
+evaluation:
+  eval_strategy: "epoch"  # steps, epoch, no
+  eval_steps: 500
+  per_device_eval_batch_size: 16
+  dataloader_num_workers: 4
+  
+# Data Configuration
+data:
+  train_file: "./data/training/train.json"
+  validation_file: "./data/training/validation.json"
+  test_file: "./data/test/test.json"
+  max_train_samples: null
+  max_eval_samples: null
+  preprocessing_num_workers: 4
+  
+  # Data split ratios (if splitting from single file)
+  train_ratio: 0.8
+  validation_ratio: 0.1
+  test_ratio: 0.1
+  
+# Logging Configuration
+logging:
+  log_level: "INFO"
+  log_dir: "./logs/training"
+  report_to: ["tensorboard"]  # tensorboard, wandb, none
+  logging_steps: 100
+  
+# Hardware Configuration
+hardware:
+  use_gpu: true
+  fp16: false  # Use mixed precision training
+  dataloader_pin_memory: true
+  dataloader_num_workers: 4

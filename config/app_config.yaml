@@ -1,0 +1,56 @@
+# Application Configuration
+app:
+  name: "Simple Decision AI"
+  version: "0.1.0"
+  description: "A simple AI system for binary decision making"
+  debug: false
+  
+# API Configuration
+api:
+  host: "0.0.0.0"
+  port: 8000
+  workers: 1
+  reload: false
+  cors_enabled: true
+  cors_origins: ["*"]
+  
+# CLI Configuration
+cli:
+  default_output_format: "json"  # json, text
+  verbose: false
+  show_confidence: true
+  show_reasoning: true
+  
+# Logging Configuration
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file_handler:
+    enabled: true
+    filename: "./logs/app.log"
+    max_bytes: 10485760  # 10MB
+    backup_count: 5
+  console_handler:
+    enabled: true
+    
+# Performance Configuration
+performance:
+  max_concurrent_requests: 10
+  request_timeout: 30
+  model_cache_size: 1
+  
+# Security Configuration
+security:
+  rate_limiting:
+    enabled: true
+    requests_per_minute: 60
+  input_validation:
+    max_input_length: 1000
+    allowed_characters: "alphanumeric_and_punctuation"
+    
+# Features Configuration
+features:
+  batch_processing: true
+  confidence_scoring: true
+  reasoning_explanation: true
+  model_switching: false

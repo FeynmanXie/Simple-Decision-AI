@@ -1,0 +1,41 @@
+# Model Configuration
+model:
+  name: "bert-base-uncased"
+  cache_dir: "./models/pretrained"
+  max_sequence_length: 512
+  num_labels: 2
+  
+  # Fine-tuning parameters
+  dropout_rate: 0.1
+  hidden_dropout_prob: 0.1
+  attention_probs_dropout_prob: 0.1
+
+# Tokenizer Configuration
+tokenizer:
+  do_lower_case: true
+  padding: "max_length"
+  truncation: true
+  return_attention_mask: true
+  return_token_type_ids: true
+
+# Model paths
+paths:
+  pretrained_model: "./models/pretrained"
+  fine_tuned_model: "./models/final/decision_model"
+  checkpoint_dir: "./models/checkpoints"
+  
+# Inference Configuration
+inference:
+  confidence_threshold: 0.5
+  batch_size: 1
+  max_length: 512
+  device: "auto"  # auto, cpu, cuda
+  
+# Labels mapping
+labels:
+  0: "No"
+  1: "Yes"
+  
+label_to_id:
+  "No": 0
+  "Yes": 1

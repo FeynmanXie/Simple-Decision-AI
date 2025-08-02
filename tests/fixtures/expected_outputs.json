@@ -1,0 +1,6 @@
+{
+    "outputs": [
+        {"decision": "Yes", "confidence": 0.99},
+        {"decision": "Yes", "confidence": 1.0}
+    ]
+}
