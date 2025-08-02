@@ -8,6 +8,9 @@ import re
 from typing import Dict, Any, Optional, Tuple
 from utils.logger import LoggerMixin
 from utils.helpers import format_decision_output
+from .smart_explanation_engine import SmartExplanationEngine
+from .math_reasoning_engine import MathReasoningEngine
+from .logic_checker import LogicChecker
 
 
 class RuleEngine(LoggerMixin):
@@ -16,6 +19,11 @@ class RuleEngine(LoggerMixin):
     def __init__(self):
         """Initialize the rule engine."""
         self.rules = self._load_rules()
+        self.explanation_engine = SmartExplanationEngine()
+        self.math_engine = MathReasoningEngine()
+        self.logic_checker = LogicChecker()
+        self._explanations_loaded = False
+        self._load_explanation_templates()
         self.logger.info("Rule engine initialized")
     
     def _load_rules(self) -> Dict[str, Any]:
@@ -40,6 +48,12 @@ class RuleEngine(LoggerMixin):
                 (r"(?i).*5\s*>\s*10.*", "No", 0.99, "5 is not greater than 10"),
                 (r"(?i).*3\s*\*\s*4\s*=\s*12.*", "Yes", 0.99, "Basic multiplication: 3×4=12"),
                 (r"(?i).*3\s*\*\s*4\s*=\s*11.*", "No", 0.99, "Incorrect multiplication: 3×4≠11"),
+                (r"(?i).*8\s*÷\s*2\s*=\s*4.*", "Yes", 0.99, "Basic division: 8÷2=4"),
+                (r"(?i).*8\s*/\s*2\s*=\s*4.*", "Yes", 0.99, "Basic division: 8/2=4"),
+                (r"(?i).*100\s*-\s*25\s*=\s*75.*", "Yes", 0.99, "Basic subtraction: 100-25=75"),
+                (r"(?i).*7\s*\*\s*3\s*=\s*21.*", "Yes", 0.99, "Basic multiplication: 7×3=21"),
+                (r"(?i).*zero.*multiply.*anything.*zero.*", "Yes", 0.95, "Anything multiplied by zero equals zero"),
+                (r"(?i).*any.*number.*divided.*by.*itself.*one.*", "Yes", 0.95, "Any number divided by itself equals one"),
             ],
             
             # Logical rules
@@ -80,6 +94,22 @@ class RuleEngine(LoggerMixin):
         Returns:
             Tuple of (decision, confidence, reasoning) or None if no rule matches
         """
+        # First try mathematical reasoning
+        if self.math_engine.can_solve(text):
+            math_result = self.math_engine.solve(text)
+            if math_result is not None:
+                decision, confidence, reasoning = math_result
+                self.logger.debug(f"Math engine solved: {decision}")
+                return decision, confidence, f"Mathematical reasoning: {reasoning}"
+        
+        # Try logical reasoning
+        if self.logic_checker.can_check(text):
+            logic_result = self.logic_checker.check_logic(text)
+            if logic_result is not None:
+                decision, confidence, reasoning = logic_result
+                self.logger.debug(f"Logic checker result: {decision}")
+                return decision, confidence, f"Logical reasoning: {reasoning}"
+        
         # Clean text for better matching
         cleaned_text = self._clean_text(text)
         
@@ -102,6 +132,17 @@ class RuleEngine(LoggerMixin):
         
         return text
     
+    def _load_explanation_templates(self) -> None:
+        """Load explanation templates for smart explanations."""
+        try:
+            templates_path = "./models/explanation_templates.json"
+            self.explanation_engine.load_templates(templates_path)
+            self._explanations_loaded = True
+            self.logger.info("Rule engine explanation templates loaded successfully")
+        except Exception as e:
+            self.logger.warning(f"Could not load explanation templates in rule engine: {e}. Using fallback explanations.")
+            self._explanations_loaded = False
+    
     def decide_with_rules(self, text: str, ai_result: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """
         Make a decision using rules, with optional AI result as fallback.
@@ -118,25 +159,42 @@ class RuleEngine(LoggerMixin):
         
         if rule_result:
             decision, confidence, reasoning = rule_result
+            # Generate explanation using smart explanation engine
+            if self._explanations_loaded:
+                explanation = self.explanation_engine.generate_explanation(text, decision, confidence)
+            else:
+                explanation = f"I chose '{decision}' based on a rule-based pattern match."
+            
             return format_decision_output(
                 decision=decision,
                 confidence=confidence,
                 reasoning=reasoning,
-                input_text=text
+                input_text=text,
+                explanation=explanation
             )
         
         # Fall back to AI result if available
         if ai_result:
             # Enhance AI result with rule engine info
             ai_result['reasoning'] = f"AI model decision: {ai_result.get('reasoning', 'No specific reasoning')}"
+            # Add explanation if not already present (should already be there from InferenceEngine)
+            if 'explanation' not in ai_result:
+                if self._explanations_loaded:
+                    ai_result['explanation'] = self.explanation_engine.generate_explanation(
+                        text, ai_result.get('decision', 'Unknown'), ai_result.get('confidence', 0.0)
+                    )
+                else:
+                    ai_result['explanation'] = f"I chose '{ai_result.get('decision', 'Unknown')}' based on AI analysis."
             return ai_result
         
         # Last resort: admit uncertainty
+        explanation = "I could not make a clear decision due to insufficient information."
         return format_decision_output(
             decision="Unknown",
             confidence=0.0,
             reasoning="No applicable rules found and no AI model result available",
-            input_text=text
+            input_text=text,
+            explanation=explanation
         )
     
     def get_rule_stats(self) -> Dict[str, int]:

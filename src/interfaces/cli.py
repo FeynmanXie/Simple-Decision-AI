@@ -66,6 +66,10 @@ def _format_decision_output(ctx, result: dict, no_reasoning: bool, format: str):
         click.echo(f"Decision: {decision_colored}")
         click.echo(f"Confidence: {confidence_colored}")
         
+        # Show explanation first (simple English explanation)
+        if 'explanation' in result:
+            click.echo(f"Explanation: {click.style(result['explanation'], fg='cyan')}")
+        
         if not no_reasoning and 'reasoning' in result:
             click.echo(f"Reasoning: {result['reasoning']}")
         
@@ -188,12 +192,13 @@ def batch(ctx, input_file: str, output: Optional[str], no_reasoning: bool, forma
                 import csv
                 with open(output_path, 'w', newline='', encoding='utf-8') as f:
                     writer = csv.writer(f)
-                    writer.writerow(['Input', 'Decision', 'Confidence', 'Reasoning', 'Timestamp'])
+                    writer.writerow(['Input', 'Decision', 'Confidence', 'Explanation', 'Reasoning', 'Timestamp'])
                     for result in results:
                         writer.writerow([
                             result.get('input', ''),
                             result.get('decision', ''),
                             result.get('confidence', 0),
+                            result.get('explanation', ''),
                             result.get('reasoning', ''),
                             result.get('timestamp', '')
                         ])
@@ -205,6 +210,8 @@ def batch(ctx, input_file: str, output: Optional[str], no_reasoning: bool, forma
                 click.echo(f"Input: {result.get('input', '')}")
                 click.echo(f"Decision: {result['decision']}")
                 click.echo(f"Confidence: {result['confidence']:.2%}")
+                if 'explanation' in result:
+                    click.echo(f"Explanation: {result['explanation']}")
                 if not no_reasoning and 'reasoning' in result:
                     click.echo(f"Reasoning: {result['reasoning']}")
         

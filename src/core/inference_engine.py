@@ -14,6 +14,7 @@ from .text_processor import TextProcessor
 from utils.config_loader import config_loader
 from utils.logger import LoggerMixin
 from utils.helpers import format_decision_output
+from .smart_explanation_engine import SmartExplanationEngine
 
 
 class InferenceEngine(LoggerMixin):
@@ -42,6 +43,10 @@ class InferenceEngine(LoggerMixin):
         self.labels = self.config.get('labels', {0: "No", 1: "Yes"})
         self.label_to_id = self.config.get('label_to_id', {"No": 0, "Yes": 1})
         
+        # Smart explanation engine
+        self.explanation_engine = SmartExplanationEngine()
+        self._explanations_loaded = False
+        
         self._initialized = False
     
     def initialize(self) -> None:
@@ -57,12 +62,26 @@ class InferenceEngine(LoggerMixin):
             self.model_manager.load_model()
             self.model_manager.load_tokenizer()
             
+            # Load explanation templates
+            self._load_explanation_templates()
+            
             self._initialized = True
             self.logger.info("Inference engine initialized successfully")
             
         except Exception as e:
             self.logger.error(f"Failed to initialize inference engine: {e}")
             raise
+    
+    def _load_explanation_templates(self) -> None:
+        """Load explanation templates for smart explanations."""
+        try:
+            templates_path = "./models/explanation_templates.json"
+            self.explanation_engine.load_templates(templates_path)
+            self._explanations_loaded = True
+            self.logger.info("Explanation templates loaded successfully")
+        except Exception as e:
+            self.logger.warning(f"Could not load explanation templates: {e}. Using fallback explanations.")
+            self._explanations_loaded = False
     
     def predict(self, text: str, return_reasoning: bool = True) -> Dict[str, Any]:
         """
@@ -108,12 +127,20 @@ class InferenceEngine(LoggerMixin):
                 if return_reasoning:
                     reasoning = self._generate_reasoning(text, decision, confidence, confidence_scores)
                 
+                # Generate explanation using smart explanation engine
+                if self._explanations_loaded:
+                    explanation = self.explanation_engine.generate_explanation(text, decision, confidence)
+                else:
+                    # Fallback to basic explanation
+                    explanation = f"I chose '{decision}' with {confidence:.1%} confidence based on my analysis."
+                
                 # Format output
                 result = format_decision_output(
                     decision=decision,
                     confidence=confidence,
                     reasoning=reasoning,
-                    input_text=text
+                    input_text=text,
+                    explanation=explanation
                 )
                 
                 self.logger.debug(f"Prediction: {decision} (confidence: {confidence:.4f})")
@@ -176,12 +203,20 @@ class InferenceEngine(LoggerMixin):
                         if return_reasoning:
                             reasoning = self._generate_reasoning(text, decision, confidence, conf_scores)
                         
+                        # Generate explanation using smart explanation engine
+                        if self._explanations_loaded:
+                            explanation = self.explanation_engine.generate_explanation(text, decision, confidence)
+                        else:
+                            # Fallback to basic explanation
+                            explanation = f"I chose '{decision}' with {confidence:.1%} confidence based on my analysis."
+                        
                         # Format output
                         result = format_decision_output(
                             decision=decision,
                             confidence=confidence,
                             reasoning=reasoning,
-                            input_text=text
+                            input_text=text,
+                            explanation=explanation
                         )
                         
                         results.append(result)

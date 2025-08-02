@@ -141,8 +141,11 @@ class DecisionMaker(LoggerMixin):
                 if not is_valid:
                     raise ValueError(f"Invalid input at index {i}: {error_msg}")
             
-            # Make batch predictions
-            results = self.inference_engine.predict_batch(texts, return_reasoning=include_reasoning)
+            # Make individual decisions to ensure rule engine is used
+            results = []
+            for text in texts:
+                result = self.decide(text, include_reasoning=include_reasoning, save_to_history=False)
+                results.append(result)
             
             # Update statistics and history
             for result in results:

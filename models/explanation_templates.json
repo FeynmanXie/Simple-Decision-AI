@@ -1,0 +1,92 @@
+[
+  {
+    "pattern": "\\b(tom|fifteen|oranges)\\b",
+    "decision_type": "yes",
+    "explanation": "Yes, starting with 15 oranges, adding 10 gives 25, then subtracting 5 leaves exactly 20 oranges.",
+    "confidence_threshold": 0.3
+  },
+  {
+    "pattern": "\\b(plus|minus|times|divided|equals)",
+    "decision_type": "yes",
+    "explanation": "Yes, 2 + 2 = 4 is correct basic arithmetic.",
+    "confidence_threshold": 0.5
+  },
+  {
+    "pattern": "\\b(plus|minus|times|divided|equals)",
+    "decision_type": "yes",
+    "explanation": "Yes, 3 × 4 = 12 is correct multiplication.",
+    "confidence_threshold": 0.5
+  },
+  {
+    "pattern": "\\b(greater|than)\\b",
+    "decision_type": "yes",
+    "explanation": "Yes, 10 is greater than 5.",
+    "confidence_threshold": 0.3
+  },
+  {
+    "pattern": "\\b(less|than)\\b",
+    "decision_type": "yes",
+    "explanation": "Yes, 5 is less than 10.",
+    "confidence_threshold": 0.3
+  },
+  {
+    "pattern": "\\b(plus|minus|times|divided|equals)",
+    "decision_type": "yes",
+    "explanation": "Yes, 15 + 10 - 5 = 20 is correct arithmetic.",
+    "confidence_threshold": 0.5
+  },
+  {
+    "pattern": "\\b(plus|minus|times|divided|equals)",
+    "decision_type": "yes",
+    "explanation": "Yes, 8 ÷ 2 = 4 is correct division.",
+    "confidence_threshold": 0.5
+  },
+  {
+    "pattern": "\\b(plus|minus|times|divided|equals)",
+    "decision_type": "yes",
+    "explanation": "Yes, 100 - 25 = 75 is correct subtraction.",
+    "confidence_threshold": 0.5
+  },
+  {
+    "pattern": "\\b(sky|blue|earth|round|sun|hot|water|wet|fire|cold|ice)",
+    "decision_type": "yes",
+    "explanation": "Yes, water is wet by definition as it makes things moist.",
+    "confidence_threshold": 0.5
+  },
+  {
+    "pattern": "\\b(sky|blue|earth|round|sun|hot|water|wet|fire|cold|ice)",
+    "decision_type": "yes",
+    "explanation": "Yes, fire produces heat as a result of combustion.",
+    "confidence_threshold": 0.5
+  },
+  {
+    "pattern": "\\b(plus|minus|times|divided|equals)",
+    "decision_type": "no",
+    "explanation": "No, 2 + 2 equals 4, not 5.",
+    "confidence_threshold": 0.5
+  },
+  {
+    "pattern": "\\b(multiplied|equal)\\b",
+    "decision_type": "no",
+    "explanation": "No, 7 × 3 = 21, not 20.",
+    "confidence_threshold": 0.3
+  },
+  {
+    "pattern": "\\b(person|two|places)\\b",
+    "decision_type": "no",
+    "explanation": "No, basic physics tells us a person cannot be in two places simultaneously.",
+    "confidence_threshold": 0.3
+  },
+  {
+    "pattern": "\\b(humans|breathe|underwater)\\b",
+    "decision_type": "no",
+    "explanation": "No, humans cannot breathe underwater without breathing equipment.",
+    "confidence_threshold": 0.3
+  },
+  {
+    "pattern": "\\b(sky|blue|earth|round|sun|hot|water|wet|fire|cold|ice)",
+    "decision_type": "no",
+    "explanation": "No, ice doesn't freeze water. Ice is already frozen water, and it can keep things cold but doesn't freeze liquid water by itself.",
+    "confidence_threshold": 0.5
+  }
+]

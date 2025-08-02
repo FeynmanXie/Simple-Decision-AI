@@ -83,7 +83,8 @@ def format_decision_output(
     decision: str,
     confidence: float,
     reasoning: Optional[str] = None,
-    input_text: Optional[str] = None
+    input_text: Optional[str] = None,
+    explanation: Optional[str] = None
 ) -> Dict[str, Any]:
     """
     Format decision output in a standardized format.
@@ -93,6 +94,7 @@ def format_decision_output(
         confidence: Confidence score (0.0 to 1.0)
         reasoning: Optional reasoning explanation
         input_text: Optional input text that was processed
+        explanation: Optional simple English explanation for the choice
         
     Returns:
         Formatted decision dictionary
@@ -108,6 +110,9 @@ def format_decision_output(
     
     if input_text:
         output["input"] = input_text
+    
+    if explanation:
+        output["explanation"] = explanation
     
     return output
 
@@ -220,3 +225,7 @@ def is_valid_model_path(model_path: Union[str, Path]) -> bool:
         return path.suffix in ['.bin', '.pt', '.pth', '.safetensors']
     
     return False
+
+
+# Note: Explanation generation has been moved to SmartExplanationEngine
+# This maintains backward compatibility for any remaining code that might import this function

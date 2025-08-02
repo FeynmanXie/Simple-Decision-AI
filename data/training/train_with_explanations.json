@@ -1,0 +1,102 @@
+[
+  {
+    "input": "Is the sky blue?",
+    "decision": "Yes",
+    "explanation": "Yes, the sky appears blue due to the way sunlight interacts with Earth's atmosphere."
+  },
+  {
+    "input": "Do you know my name?",
+    "decision": "No",
+    "explanation": "No, I don't have access to your personal information including your name."
+  },
+  {
+    "input": "Can you help me write code?",
+    "decision": "Yes",
+    "explanation": "Yes, I can help you with coding tasks and programming questions."
+  },
+  {
+    "input": "Will it rain tomorrow?",
+    "decision": "No",
+    "explanation": "No, I cannot predict future weather as I don't have access to current weather data."
+  },
+  {
+    "input": "Is water wet?",
+    "decision": "Yes",
+    "explanation": "Yes, water is wet by definition as it makes other things wet when they come into contact with it."
+  },
+  {
+    "input": "Is fire hot?",
+    "decision": "Yes",
+    "explanation": "Yes, fire is hot because it's a chemical reaction that releases thermal energy."
+  },
+  {
+    "input": "Can humans fly without machines?",
+    "decision": "No",
+    "explanation": "No, humans cannot naturally fly without the aid of machines or equipment."
+  },
+  {
+    "input": "Is the earth round?",
+    "decision": "Yes",
+    "explanation": "Yes, the Earth is approximately spherical, as confirmed by scientific observation and evidence."
+  },
+  {
+    "input": "Is the earth flat?",
+    "decision": "No",
+    "explanation": "No, the Earth is not flat. Scientific evidence clearly shows it's spherical."
+  },
+  {
+    "input": "Is 2 plus 2 equal to 4?",
+    "decision": "Yes",
+    "explanation": "Yes, 2 + 2 = 4 is a basic mathematical fact."
+  },
+  {
+    "input": "Is 2 plus 2 equal to 5?",
+    "decision": "No",
+    "explanation": "No, 2 + 2 equals 4, not 5. This is incorrect mathematics."
+  },
+  {
+    "input": "What time is it now?",
+    "decision": "No",
+    "explanation": "No, I cannot tell you the current time as I don't have access to real-time information."
+  },
+  {
+    "input": "Do you like pizza?",
+    "decision": "No",
+    "explanation": "No, as an AI, I don't have personal preferences or the ability to taste food."
+  },
+  {
+    "input": "Are you an AI?",
+    "decision": "Yes",
+    "explanation": "Yes, I am an artificial intelligence designed to help answer questions and make decisions."
+  },
+  {
+    "input": "Can you see me?",
+    "decision": "No",
+    "explanation": "No, I cannot see you as I don't have visual capabilities or camera access."
+  },
+  {
+    "input": "Is the sun hot?",
+    "decision": "Yes",
+    "explanation": "Yes, the sun is extremely hot with surface temperatures around 5,500°C (10,000°F)."
+  },
+  {
+    "input": "Do fish live in water?",
+    "decision": "Yes",
+    "explanation": "Yes, most fish species live in water environments like oceans, rivers, and lakes."
+  },
+  {
+    "input": "Can dogs talk?",
+    "decision": "No",
+    "explanation": "No, dogs cannot talk in human language, though they communicate through barks and body language."
+  },
+  {
+    "input": "Is ice cold?",
+    "decision": "Yes",
+    "explanation": "Yes, ice is cold as it's frozen water at or below 0°C (32°F)."
+  },
+  {
+    "input": "Do plants need sunlight?",
+    "decision": "Yes",
+    "explanation": "Yes, most plants need sunlight for photosynthesis to produce energy and grow."
+  }
+]

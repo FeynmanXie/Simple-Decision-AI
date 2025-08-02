@@ -1,0 +1,27 @@
+[
+  {
+    "input": "Is snow white?",
+    "decision": "Yes",
+    "explanation": "Yes, snow typically appears white because it reflects most visible light wavelengths."
+  },
+  {
+    "input": "Can you remember our conversation?",
+    "decision": "No",
+    "explanation": "No, I don't retain memory of conversations after they end."
+  },
+  {
+    "input": "Is gold valuable?",
+    "decision": "Yes",
+    "explanation": "Yes, gold is considered valuable due to its rarity, durability, and widespread acceptance."
+  },
+  {
+    "input": "Will the stock market crash next week?",
+    "decision": "No",
+    "explanation": "No, I cannot predict specific future market movements as they depend on many unpredictable factors."
+  },
+  {
+    "input": "Do birds have wings?",
+    "decision": "Yes",
+    "explanation": "Yes, most birds have wings, though not all can fly (like penguins and ostriches)."
+  }
+]
