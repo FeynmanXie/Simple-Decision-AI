@@ -1,5 +1,6 @@
 @echo off
-setlocal enabledelayedexpansion
+chcp 65001 > nul
+setlocal enableDelayedExpansion
 
 REM Set script directory and stay in the root folder
 set "SCRIPT_DIR=%~dp0"
@@ -56,9 +57,16 @@ pause & exit /b 0
 :menu
 cls
 echo.
-echo  +===========================================================+
-echo  ^|                 Simple Decision AI                      ^|
-echo  +===========================================================+
+@echo off
+echo.
+
+python print_logo.py
+
+
+                                                         
+
+
+
 echo.
 echo  Quick Actions:
 echo    1  Quick Decision    ^|  5  Show Demo
